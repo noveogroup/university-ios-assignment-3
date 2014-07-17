@@ -25,6 +25,13 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
 @synthesize wares = wares_;
 
+- (void)dealloc {
+    [wares_ release];
+    wares_ = nil;
+    
+    [super dealloc];
+}
+
 #pragma mark - Getters
 
 - (BOOL)isEmpty
