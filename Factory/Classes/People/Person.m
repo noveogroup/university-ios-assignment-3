@@ -18,4 +18,12 @@
     location_ = location;
 }
 
+- (void)dealloc
+{
+	[name_ release];
+	[surname_ release];
+
+	[super dealloc];
+}
+
 @end
