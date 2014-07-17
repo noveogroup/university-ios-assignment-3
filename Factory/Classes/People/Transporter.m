@@ -9,10 +9,4 @@
 
 @synthesize cargo = cargo_;
 
-- (void)dealloc
-{
-	[cargo_ release];
-	[super dealloc];
-}
-
 @end
