@@ -11,13 +11,6 @@
 @synthesize surname = surname_;
 @synthesize location = location_;
 
-- (void) dealloc {
-    [name_ release];
-    [surname_ release];
-    
-    [super dealloc];
-}
-
 #pragma mark - Movement
 
 - (void)moveToLocation:(id<LocationProtocol>)location
