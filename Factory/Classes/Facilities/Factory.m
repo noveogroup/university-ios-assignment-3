@@ -123,15 +123,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
     return self;
 }
 
-#pragma mark - Deallocation
-
-- (void)dealloc
-{
-	finishedProductStorage_ = nil;
-
-	rawMaterialStorage_ = nil;
-}
-
 #pragma mark - Production
 
 - (void)simulateWorkingMonth
