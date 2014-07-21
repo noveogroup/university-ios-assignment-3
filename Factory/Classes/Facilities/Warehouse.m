@@ -40,7 +40,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 - (NSMutableDictionary *)wares
 {
     if (!wares_) {
-        wares_ = [[[NSMutableDictionary alloc] init]autorelease];//autorelease//
+        wares_ = [[NSMutableDictionary alloc] init];
     }
 
     return wares_;
@@ -88,12 +88,18 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
                 @"There is not enough wares in the warehouse",
                 kWarehouseErrorDescription,
              nil] autorelease];//autorelease//
-        (*error) = [[NSError errorWithDomain:WarehouseErrorDomain
+        (*error) = [NSError errorWithDomain:WarehouseErrorDomain
                                        code:WarehouseErrorCodeNotEnoughWares
-                                   userInfo:userInfo]autorelease];
+                                   userInfo:userInfo];
     }
 
     return nil;
+}
+
+-(void)dealloc{
+    self.wares = nil;
+    
+    [super dealloc];
 }
 
 @end

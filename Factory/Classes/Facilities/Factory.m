@@ -123,7 +123,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         rawMaterialStorage_.capacity = DefaultCapacityOfRawMaterialStorage;
 
         while (![rawMaterialStorage_ isFull]) {
-            [rawMaterialStorage_ putWare:[[RawMaterial alloc] init]];//delete//
+            [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init]autorelease]];
         }
     }
 
@@ -134,14 +134,15 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
-    [finishedProductStorage_ release];//release//
     self.finishedProductStorage = nil;
-    
-    [rawMaterialStorage_ release];//release//
     self.rawMaterialStorage = nil;
 
     [assemblyLine_ release];
     assemblyLine_ = nil;
+    
+    self.freeTransporters = nil;
+    self.occupiedTransporters = nil;
+    self.restingTransporters = nil;
 
     [super dealloc];
 }
