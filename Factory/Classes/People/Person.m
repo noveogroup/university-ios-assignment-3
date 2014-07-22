@@ -18,4 +18,9 @@
     location_ = location;
 }
 
+-(void)dealloc{
+    name_ = nil;
+    surname_ = nil;
+}
+
 @end

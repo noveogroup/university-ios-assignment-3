@@ -77,8 +77,8 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
         for (id<WareProtocol> ware in mutableShipment) {
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
-
-        return [mutableShipment copy];
+        NSSet* shipment = [mutableShipment copy];
+        return shipment;
     }
 
     if (!!error) {
@@ -86,13 +86,17 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
             [[NSDictionary alloc] initWithObjectsAndKeys:
                 @"There is not enough wares in the warehouse",
                 kWarehouseErrorDescription,
-             nil];
+              nil];
         (*error) = [NSError errorWithDomain:WarehouseErrorDomain
                                        code:WarehouseErrorCodeNotEnoughWares
                                    userInfo:userInfo];
     }
 
     return nil;
+}
+
+-(void)dealloc{
+    self.wares = nil;
 }
 
 @end
