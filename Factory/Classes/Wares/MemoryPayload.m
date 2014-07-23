@@ -38,7 +38,6 @@
 {
     free(memoryLoad_);
     memoryLoad_ = NULL;
-
 }
 
 @end

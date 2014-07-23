@@ -125,13 +125,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 #pragma mark - Deallocation
 
-- (void)dealloc
-{
-    self.finishedProductStorage = nil;
-    self.rawMaterialStorage = nil;
-
-
-}
 
 #pragma mark - Production
 
@@ -182,7 +175,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                         /**
                          *  @remarks    One of the transporters has decided to retire.
                          */
-                        [self.freeTransporters anyObject];
+                        [self.freeTransporters removeObject: [self.freeTransporters anyObject]];
                     }
                 }
 
