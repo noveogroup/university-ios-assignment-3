@@ -19,6 +19,7 @@
 -(void)dealloc
 {
     [cargo_ release];
+    cargo_ = nil;
     [super dealloc];
 }
 @end

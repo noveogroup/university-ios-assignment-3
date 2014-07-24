@@ -18,4 +18,9 @@
     location_ = location;
 }
 
+-(void)dealloc
+{
+    [super dealloc];
+}
+
 @end

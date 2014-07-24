@@ -100,7 +100,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (id)init
 {
     if ((self = [super init])) {
-        freeTransporters_ = [[NSMutableSet set] retain];
+        freeTransporters_ = [[NSMutableSet alloc] init];
 
         NSInteger counter = DefaultNumberOfFreeTransporters;
         while (--counter >= 0) {
@@ -109,6 +109,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
             [freeTransporters_ addObject:transporter];
+            [transporter release];
         }
 
         finishedProductStorage_ = [[Warehouse alloc] init];
@@ -133,18 +134,10 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
-    [self.finishedProductStorage release];
-    self.finishedProductStorage = nil;
-    [self.rawMaterialStorage release];
-    self.rawMaterialStorage = nil;
-    [self.freeTransporters release];
-    self.freeTransporters = nil;
     [self.restingTransporters release];
     self.restingTransporters = nil;
     [self.occupiedTransporters release];
     self.occupiedTransporters = nil;
-    [self.finishedProductStorage release];
-    self.finishedProductStorage = nil;
     
     [assemblyLine_ release];
     assemblyLine_ = nil;
