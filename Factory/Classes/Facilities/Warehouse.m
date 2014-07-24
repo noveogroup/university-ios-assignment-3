@@ -40,7 +40,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 - (NSMutableDictionary *)wares
 {
     if (!wares_) {
-        wares_ = [[[NSMutableDictionary alloc] init] autorelease];
+        wares_ = [[NSMutableDictionary alloc] init];
     }
 
     return wares_;
@@ -95,6 +95,13 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
     }
 
     return nil;
+}
+
+-(void)dealloc
+{
+    [wares_ release];
+    wares_ = nil;
+    [super dealloc];
 }
 
 @end

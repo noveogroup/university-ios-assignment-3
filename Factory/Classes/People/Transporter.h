@@ -14,5 +14,4 @@
  *  Returns the transported cargo.
  */
 @property (nonatomic, retain) id cargo;
-
 @end

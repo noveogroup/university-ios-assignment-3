@@ -24,7 +24,7 @@
 - (id)initWithRawMaterials:(NSSet *)rawMaterials
 {
     if ((self = [super init])) {
-        rawMaterials_ = [[rawMaterials copy] autorelease];
+        rawMaterials_ = [rawMaterials copy];
     }
 
     return self;

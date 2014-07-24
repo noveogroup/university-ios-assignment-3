@@ -64,7 +64,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (AssemblyLine *)assemblyLine
 {
     if (!assemblyLine_) {
-        assemblyLine_ = [[[AssemblyLine alloc] init] autorelease];
+        assemblyLine_ = [[AssemblyLine alloc] init];
         assemblyLine_.latitude = .0f;
         assemblyLine_.longitude = -1.f;
     }
@@ -133,9 +133,20 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
+    [self.finishedProductStorage release];
     self.finishedProductStorage = nil;
+    [self.rawMaterialStorage release];
     self.rawMaterialStorage = nil;
-
+    [self.freeTransporters release];
+    self.freeTransporters = nil;
+    [self.restingTransporters release];
+    self.restingTransporters = nil;
+    [self.occupiedTransporters release];
+    self.occupiedTransporters = nil;
+    [self.finishedProductStorage release];
+    self.finishedProductStorage = nil;
+    
+    [assemblyLine_ release];
     assemblyLine_ = nil;
 
     [super dealloc];
