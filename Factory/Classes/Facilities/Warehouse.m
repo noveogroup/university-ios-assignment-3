@@ -78,21 +78,30 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
 
-        return [mutableShipment copy];
+        NSSet *set = [[mutableShipment copy] autorelease];
+        [mutableShipment release];
+        return set;
     }
 
     if (!!error) {
         NSDictionary *const userInfo =
-            [[NSDictionary alloc] initWithObjectsAndKeys:
+            [[[NSDictionary alloc] initWithObjectsAndKeys:
                 @"There is not enough wares in the warehouse",
                 kWarehouseErrorDescription,
-             nil];
+             nil] autorelease];
         (*error) = [NSError errorWithDomain:WarehouseErrorDomain
                                        code:WarehouseErrorCodeNotEnoughWares
                                    userInfo:userInfo];
     }
 
     return nil;
+}
+
+-(void)dealloc
+{
+    [wares_ release];
+    wares_ = nil;
+    [super dealloc];
 }
 
 @end
