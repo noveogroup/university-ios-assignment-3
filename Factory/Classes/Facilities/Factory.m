@@ -134,10 +134,14 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
-    [self.restingTransporters release];
-    self.restingTransporters = nil;
-    [self.occupiedTransporters release];
-    self.occupiedTransporters = nil;
+    [restingTransporters_ release];
+    restingTransporters_ = nil;
+    [occupiedTransporters_ release];
+    occupiedTransporters_ = nil;
+    [finishedProductStorage_ release];
+    finishedProductStorage_ = nil;
+    [rawMaterialStorage_ release];
+    rawMaterialStorage_ = nil;
     
     [assemblyLine_ release];
     assemblyLine_ = nil;
