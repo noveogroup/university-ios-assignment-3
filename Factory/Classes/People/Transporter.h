@@ -13,6 +13,6 @@
 /**
  *  Returns the transported cargo.
  */
-@property (nonatomic, retain) id cargo;
+@property (nonatomic, strong) id cargo;
 
 @end
