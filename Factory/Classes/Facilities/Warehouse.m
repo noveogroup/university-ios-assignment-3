@@ -97,4 +97,11 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
     return nil;
 }
 
+-(void)dealloc {
+    [wares_ release];
+    wares_ = nil;
+    
+    [super dealloc];
+}
+
 @end
