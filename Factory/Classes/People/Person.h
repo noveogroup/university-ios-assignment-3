@@ -25,7 +25,7 @@
 /**
  *  Returns the current location of the person.
  */
-@property (nonatomic, readonly) id<LocationProtocol> location;
+@property (nonatomic, readonly, assign) id<LocationProtocol> location;
 
 /**
  *  Moves the receiver to the specific location.

@@ -99,7 +99,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (id)init
 {
     if ((self = [super init])) {
-        freeTransporters_ = [[NSMutableSet set] retain];
+        freeTransporters_ = [NSMutableSet set];
 
         NSInteger counter = DefaultNumberOfFreeTransporters;
         while (--counter >= 0) {
@@ -108,6 +108,8 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
             [freeTransporters_ addObject:transporter];
+            
+            [transporter release];
         }
 
         finishedProductStorage_ = [[Warehouse alloc] init];
@@ -134,10 +136,13 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 {
     self.finishedProductStorage = nil;
     self.rawMaterialStorage = nil;
-
+    
+    [freeTransporters_ removeAllObjects];
+    [occupiedTransporters_ removeAllObjects];
+    
     [assemblyLine_ release];
     assemblyLine_ = nil;
-
+    
     [super dealloc];
 }
 
@@ -147,7 +152,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 {
     NSLog(@"A brand new month starts.\n\n");
 
-    for (NSUInteger index = 0; index < 5; ++index) {
+    for (NSUInteger index = 0; index < 4; ++index) { //in month 4 week, not 5
         [self simulateWorkingWeek];
     }
 
@@ -174,7 +179,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         [self.freeTransporters addObject:transporter];
         [transporter release];
     }
-
+    
     NSLog(@"The week is over.\n\n");
 }
 
@@ -191,10 +196,10 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     /**
                      *  @remarks    One of the transporters has decided to retire.
                      */
-                    [[self.freeTransporters anyObject] release];
+                    [self.freeTransporters removeObject:[self.freeTransporters anyObject]];
                 }
             }
-
+            
             if ([self.restingTransporters count]) {
                 if (arc4random() % 3 == 0) {
                     /**
@@ -203,12 +208,12 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                      */
                     Transporter *const transporter = [self.restingTransporters anyObject];
                     [transporter moveToLocation:self];
-
+                    
                     [self.freeTransporters addObject:transporter];
                     [self.restingTransporters removeObject:transporter];
                 }
             }
-
+            
             Transporter *const transporter = [self.freeTransporters anyObject];
             if (!!transporter) {
                 const NSUInteger shipmentVolume = 1 + (arc4random() % DefaultLimitOnShipmentVolume);
@@ -217,12 +222,13 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                 if (!error) {
                     [self.occupiedTransporters addObject:transporter];
                     [self.freeTransporters removeObject:transporter];
-
+                    
                     [transporter moveToLocation:self.assemblyLine];
-
+                    
                     transporter.cargo = [self.assemblyLine processRawMaterials:transporter.cargo];
+                     
                     [transporter moveToLocation:self.finishedProductStorage];
-
+                    
                     if ([self.finishedProductStorage isFull]) {
                         /**
                          *  @remarks    The warehouse is full, it's high time
@@ -233,7 +239,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     }
                     [self.finishedProductStorage putWare:transporter.cargo];
                     transporter.cargo = nil;
-
                     [self.restingTransporters addObject:transporter];
                     [self.occupiedTransporters removeObject:transporter];
                 }
@@ -242,10 +247,10 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                      *  @remarks    There is not enough raw meterials,
                      *              let's buy some.
                      */
+                    
                     while (![rawMaterialStorage_ isFull]) {
                         [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
                     }
-                    [error release];
                     error = nil;
                 }
             }
