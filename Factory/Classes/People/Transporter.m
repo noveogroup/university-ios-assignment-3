@@ -12,11 +12,5 @@
 
 #pragma mark - Deallocation
 
-- (void)dealloc
-{
-    self.cargo = nil;
-    
-    [super dealloc];
-}
 
 @end
