@@ -49,7 +49,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         occupiedTransporters_ = [[NSMutableSet set] retain];
     }
 
-    return occupiedTransporters_;
+    return [occupiedTransporters_ copy];
 }
 
 - (NSMutableSet *)restingTransporters
@@ -58,7 +58,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         restingTransporters_ = [[NSMutableSet set] retain];
     }
 
-    return restingTransporters_;
+    return [restingTransporters_ copy];
 }
 
 - (AssemblyLine *)assemblyLine
@@ -69,7 +69,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         assemblyLine_.longitude = -1.f;
     }
 
-    return assemblyLine_;
+    return [assemblyLine_ copy];
 }
 
 #pragma mark - Setters
@@ -99,7 +99,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (id)init
 {
     if ((self = [super init])) {
-        freeTransporters_ = [NSMutableSet set];
+        freeTransporters_ = [[NSMutableSet set] retain];
 
         NSInteger counter = DefaultNumberOfFreeTransporters;
         while (--counter >= 0) {
@@ -134,11 +134,17 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
-    self.finishedProductStorage = nil;
-    self.rawMaterialStorage = nil;
+    [finishedProductStorage_ release];
+    finishedProductStorage_ = nil;
     
-    [freeTransporters_ removeAllObjects];
-    [occupiedTransporters_ removeAllObjects];
+    [rawMaterialStorage_ release];
+    rawMaterialStorage_ = nil;
+    
+    [freeTransporters_ release];
+    freeTransporters_ = nil;
+    
+    [occupiedTransporters_ release];
+    occupiedTransporters_ = nil;
     
     [assemblyLine_ release];
     assemblyLine_ = nil;

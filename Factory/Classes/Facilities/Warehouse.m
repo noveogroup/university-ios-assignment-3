@@ -87,7 +87,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
         
-        return [mutableShipment autorelease];
+        return [mutableShipment copy];
     }
 
     if (!!error) {
