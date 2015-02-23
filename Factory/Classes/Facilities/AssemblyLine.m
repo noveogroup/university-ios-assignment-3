@@ -8,6 +8,7 @@
 
 @implementation AssemblyLine
 
+// I thought that the right style: latitude = _latitude
 @synthesize latitude = latitude_;
 @synthesize longitude = longitude_;
 
@@ -27,9 +28,11 @@
 
 - (FinishedProduct *)processRawMaterials:(NSSet *)rawMaterials
 {
-    sleep(1);
+	// ???
+    // sleep(1);
 
-    return [[FinishedProduct alloc] initWithRawMaterials:rawMaterials];
+	// Add autorelease
+    return [[[FinishedProduct alloc] initWithRawMaterials:rawMaterials] autorelease];
 }
 
 @end
