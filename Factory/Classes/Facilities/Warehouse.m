@@ -13,7 +13,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
 @interface Warehouse ()
 
-@property (nonatomic, retain) NSMutableDictionary *wares;
+@property (nonatomic, strong) NSMutableDictionary *wares;
 
 @end
 
@@ -94,5 +94,6 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
     return nil;
 }
+
 
 @end
