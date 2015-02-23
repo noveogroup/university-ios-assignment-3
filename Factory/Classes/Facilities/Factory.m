@@ -90,6 +90,8 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)setRawMaterialStorage:(Warehouse *)rawMaterialStorage
 {
+	// Add retain statement
+	[rawMaterialStorage retain];
     [rawMaterialStorage_ release];
     rawMaterialStorage_ = rawMaterialStorage;
 }
@@ -108,6 +110,9 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
             [freeTransporters_ addObject:transporter];
+
+            // Add release statement
+            [transporter release];
         }
 
         finishedProductStorage_ = [[Warehouse alloc] init];
@@ -121,7 +126,9 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         rawMaterialStorage_.capacity = DefaultCapacityOfRawMaterialStorage;
 
         while (![rawMaterialStorage_ isFull]) {
-            [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
+
+        	// Unnecessary 'autorelease' statement
+            [rawMaterialStorage_ putWare:[[RawMaterial alloc] init]];
         }
     }
 
@@ -147,7 +154,8 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 {
     NSLog(@"A brand new month starts.\n\n");
 
-    for (NSUInteger index = 0; index < 5; ++index) {
+    // In the month more than 4 weeks, but less than 5 weeks
+    for (NSUInteger index = 0; index < 4; ++index) {
         [self simulateWorkingWeek];
     }
 
@@ -245,7 +253,9 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     while (![rawMaterialStorage_ isFull]) {
                         [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
                     }
-                    [error release];
+
+                    // Unnecessary 'release' statement
+                    // [error release];
                     error = nil;
                 }
             }

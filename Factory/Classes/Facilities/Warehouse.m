@@ -78,7 +78,12 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
 
-        return [mutableShipment copy];
+
+        NSSet *shipment = [[mutableShipment copy] autorelease];
+        [mutableShipment release];
+
+        // Return notmutable Set.
+        return shipment;
     }
 
     if (!!error) {
@@ -87,12 +92,21 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
                 @"There is not enough wares in the warehouse",
                 kWarehouseErrorDescription,
              nil];
-        (*error) = [NSError errorWithDomain:WarehouseErrorDomain
+
+        // Add 'autorelease' statement.
+        (*error) = [[NSError errorWithDomain:WarehouseErrorDomain
                                        code:WarehouseErrorCodeNotEnoughWares
-                                   userInfo:userInfo];
+                                   userInfo:userInfo] autorelease];
     }
 
     return nil;
+}
+
+- (void)dealloc
+{
+    self.wares = nil;
+    
+    [super dealloc];
 }
 
 @end
