@@ -43,8 +43,8 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
         wares_ = [[NSMutableDictionary alloc] init];
     }
 
-    return wares_;
-}
+    return [wares_ copy];
+ }
 
 #pragma mark - LocationProtocol implementation
 
@@ -78,7 +78,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
         
-        return mutableShipment;
+        return [mutableShipment copy];
     }
 
     if (!!error) {

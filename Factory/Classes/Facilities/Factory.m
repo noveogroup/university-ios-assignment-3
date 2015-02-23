@@ -49,7 +49,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         occupiedTransporters_ = [NSMutableSet set];
     }
 
-    return occupiedTransporters_;
+    return [occupiedTransporters_ copy];
 }
 
 - (NSMutableSet *)restingTransporters
@@ -58,7 +58,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         restingTransporters_ = [NSMutableSet set];
     }
 
-    return restingTransporters_;
+    return [restingTransporters_ copy];
 }
 
 - (AssemblyLine *)assemblyLine
@@ -69,24 +69,24 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         assemblyLine_.longitude = -1.f;
     }
 
-    return assemblyLine_;
+    return [assemblyLine_ copy];
 }
 
 #pragma mark - Setters
 
 - (void)setFreeTransporters:(NSMutableSet *)freeTransporters
 {
-    freeTransporters_ = freeTransporters;
+    freeTransporters_ = [freeTransporters copy];
 }
 
 - (void)setFinishedProductStorage:(Warehouse *)finishedProductStorage
 {
-    finishedProductStorage_ = finishedProductStorage;
+    finishedProductStorage_ = [finishedProductStorage copy];
 }
 
 - (void)setRawMaterialStorage:(Warehouse *)rawMaterialStorage
 {
-    rawMaterialStorage_ = rawMaterialStorage;
+    rawMaterialStorage_ = [rawMaterialStorage copy];
 }
 
 #pragma mark - Initialization
@@ -164,7 +164,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 {
     NSLog(@"A brand new day starts.\n\n");
 
-    NSError *error = nil;
+    NSError *error = [[NSError alloc] init];
     for (NSUInteger index = 0; index < 8; ++index) {
         @autoreleasepool {
             {
