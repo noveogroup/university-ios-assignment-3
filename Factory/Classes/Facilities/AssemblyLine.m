@@ -31,8 +31,7 @@
 	// ???
     // sleep(1);
 
-	// Add autorelease
-    return [[[FinishedProduct alloc] initWithRawMaterials:rawMaterials] autorelease];
+    return [[FinishedProduct alloc] initWithRawMaterials:rawMaterials];
 }
 
 @end

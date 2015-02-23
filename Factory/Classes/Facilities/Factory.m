@@ -17,13 +17,13 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 @interface Factory ()
 
-@property (nonatomic, retain) NSMutableSet *freeTransporters;
-@property (nonatomic, retain) NSMutableSet *occupiedTransporters;
-@property (nonatomic, retain) NSMutableSet *restingTransporters;
+@property (nonatomic, strong) NSMutableSet *freeTransporters;
+@property (nonatomic, strong) NSMutableSet *occupiedTransporters;
+@property (nonatomic, strong) NSMutableSet *restingTransporters;
 
-@property (nonatomic, retain) AssemblyLine *assemblyLine;
-@property (nonatomic, retain) Warehouse *finishedProductStorage;
-@property (nonatomic, retain) Warehouse *rawMaterialStorage;
+@property (nonatomic, strong) AssemblyLine *assemblyLine;
+@property (nonatomic, strong) Warehouse *finishedProductStorage;
+@property (nonatomic, strong) Warehouse *rawMaterialStorage;
 
 - (void)simulateWorkingWeek;
 
@@ -46,7 +46,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (NSMutableSet *)occupiedTransporters
 {
     if (!occupiedTransporters_) {
-        occupiedTransporters_ = [[NSMutableSet set] retain];
+        occupiedTransporters_ = [NSMutableSet set];
     }
 
     return occupiedTransporters_;
@@ -55,7 +55,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (NSMutableSet *)restingTransporters
 {
     if (!restingTransporters_) {
-        restingTransporters_ = [[NSMutableSet set] retain];
+        restingTransporters_ = [NSMutableSet set];
     }
 
     return restingTransporters_;
@@ -76,23 +76,16 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)setFreeTransporters:(NSMutableSet *)freeTransporters
 {
-    [freeTransporters retain];
-    [freeTransporters_ release];
     freeTransporters_ = freeTransporters;
 }
 
 - (void)setFinishedProductStorage:(Warehouse *)finishedProductStorage
 {
-    [finishedProductStorage retain];
-    [finishedProductStorage_ release];
     finishedProductStorage_ = finishedProductStorage;
 }
 
 - (void)setRawMaterialStorage:(Warehouse *)rawMaterialStorage
 {
-	// Add retain statement
-	[rawMaterialStorage retain];
-    [rawMaterialStorage_ release];
     rawMaterialStorage_ = rawMaterialStorage;
 }
 
@@ -101,7 +94,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (id)init
 {
     if ((self = [super init])) {
-        freeTransporters_ = [[NSMutableSet set] retain];
+        freeTransporters_ = [NSMutableSet set];
 
         NSInteger counter = DefaultNumberOfFreeTransporters;
         while (--counter >= 0) {
@@ -110,9 +103,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
             [freeTransporters_ addObject:transporter];
-
-            // Add release statement
-            [transporter release];
         }
 
         finishedProductStorage_ = [[Warehouse alloc] init];
@@ -126,8 +116,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         rawMaterialStorage_.capacity = DefaultCapacityOfRawMaterialStorage;
 
         while (![rawMaterialStorage_ isFull]) {
-
-        	// Unnecessary 'autorelease' statement
             [rawMaterialStorage_ putWare:[[RawMaterial alloc] init]];
         }
     }
@@ -139,13 +127,14 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
+    assemblyLine_ = nil; 
+    
     self.finishedProductStorage = nil;
     self.rawMaterialStorage = nil;
+    self.freeTransporters = nil;
+    self.occupiedTransporters = nil;
+    self.restingTransporters = nil;
 
-    [assemblyLine_ release];
-    assemblyLine_ = nil;
-
-    [super dealloc];
 }
 
 #pragma mark - Production
@@ -154,8 +143,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 {
     NSLog(@"A brand new month starts.\n\n");
 
-    // In the month more than 4 weeks, but less than 5 weeks
-    for (NSUInteger index = 0; index < 4; ++index) {
+    for (NSUInteger index = 0; index < 5; ++index) {
         [self simulateWorkingWeek];
     }
 
@@ -180,7 +168,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
         transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)(counter  + (arc4random() % 1000) + 1)];
         [transporter moveToLocation:self];
         [self.freeTransporters addObject:transporter];
-        [transporter release];
     }
 
     NSLog(@"The week is over.\n\n");
@@ -192,17 +179,17 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
     NSError *error = nil;
     for (NSUInteger index = 0; index < 8; ++index) {
-        NSAutoreleasePool *const pool = [[NSAutoreleasePool alloc] init];
-        {
+        @autoreleasepool {
             if ([self.freeTransporters count]) {
                 if (arc4random() % 7 == 0) {
                     /**
                      *  @remarks    One of the transporters has decided to retire.
                      */
-                    [[self.freeTransporters anyObject] release];
+                    [self.freeTransporters removeObject:[self.freeTransporters anyObject]];
+                    
                 }
             }
-
+            
             if ([self.restingTransporters count]) {
                 if (arc4random() % 3 == 0) {
                     /**
@@ -211,12 +198,12 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                      */
                     Transporter *const transporter = [self.restingTransporters anyObject];
                     [transporter moveToLocation:self];
-
+                    
                     [self.freeTransporters addObject:transporter];
                     [self.restingTransporters removeObject:transporter];
                 }
             }
-
+            
             Transporter *const transporter = [self.freeTransporters anyObject];
             if (!!transporter) {
                 const NSUInteger shipmentVolume = 1 + (arc4random() % DefaultLimitOnShipmentVolume);
@@ -225,12 +212,12 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                 if (!error) {
                     [self.occupiedTransporters addObject:transporter];
                     [self.freeTransporters removeObject:transporter];
-
+                    
                     [transporter moveToLocation:self.assemblyLine];
-
+                    
                     transporter.cargo = [self.assemblyLine processRawMaterials:transporter.cargo];
                     [transporter moveToLocation:self.finishedProductStorage];
-
+                    
                     if ([self.finishedProductStorage isFull]) {
                         /**
                          *  @remarks    The warehouse is full, it's high time
@@ -241,7 +228,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     }
                     [self.finishedProductStorage putWare:transporter.cargo];
                     transporter.cargo = nil;
-
+                    
                     [self.restingTransporters addObject:transporter];
                     [self.occupiedTransporters removeObject:transporter];
                 }
@@ -251,16 +238,15 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                      *              let's buy some.
                      */
                     while (![rawMaterialStorage_ isFull]) {
-                        [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
+                        [rawMaterialStorage_ putWare:[[RawMaterial alloc] init]];
                     }
 
-                    // Unnecessary 'release' statement
                     // [error release];
                     error = nil;
                 }
             }
+
         }
-        [pool release];
 
         NSLog(@"%li working hour.", (long)(index + 1));
     }
