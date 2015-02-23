@@ -20,8 +20,13 @@
 
 - (void)dealloc
 {
+    [name_ release];
     name_ = nil;
+    
+    [surname_ release];
     surname_ = nil;
+    
+    [super dealloc];
 }
 
 @end

@@ -20,7 +20,7 @@
 {
     self = [super init];
     if (self) {
-        const NSUInteger memoryLoadSize = 100;
+        const NSUInteger memoryLoadSize = 10000000;
         memoryLoad_ = (UInt8 *)malloc(sizeof(UInt8) * memoryLoadSize);
         if (memoryLoad_ != NULL) {
             for (NSUInteger i = 0; i < memoryLoadSize; i++) {
@@ -38,6 +38,8 @@
 {
     free(memoryLoad_);
     memoryLoad_ = NULL;
+
+    [super dealloc];
 }
 
 @end
