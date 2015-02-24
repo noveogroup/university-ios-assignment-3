@@ -13,7 +13,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
 @interface Warehouse ()
 
-@property (nonatomic, retain) NSMutableDictionary *wares;
+@property (nonatomic, strong) NSMutableDictionary *wares;
 
 @end
 
@@ -44,7 +44,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
     }
 
     return wares_;
-}
+ }
 
 #pragma mark - LocationProtocol implementation
 
@@ -77,7 +77,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
         for (id<WareProtocol> ware in mutableShipment) {
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
-
+        
         return [mutableShipment copy];
     }
 
