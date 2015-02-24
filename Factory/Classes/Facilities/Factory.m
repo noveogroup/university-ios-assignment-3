@@ -164,7 +164,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 {
     NSLog(@"A brand new day starts.\n\n");
 
-    NSError *error;
+    NSError *__autoreleasing error;
     for (NSUInteger index = 0; index < 8; ++index) {
         @autoreleasepool {
             {
