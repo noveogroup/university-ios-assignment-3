@@ -29,7 +29,7 @@
 {
     sleep(1);
 
-    return [[FinishedProduct alloc] initWithRawMaterials:rawMaterials];
+    return [[[FinishedProduct alloc] initWithRawMaterials:rawMaterials] autorelease];
 }
 
 @end
