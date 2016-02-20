@@ -90,6 +90,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)setRawMaterialStorage:(Warehouse *)rawMaterialStorage
 {
+    [rawMaterialStorage retain];
     [rawMaterialStorage_ release];
     rawMaterialStorage_ = rawMaterialStorage;
 }
@@ -99,23 +100,23 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (id)init
 {
     if ((self = [super init])) {
-        freeTransporters_ = [[NSMutableSet set] retain];
+        freeTransporters_ = [NSMutableSet set];
 
         NSInteger counter = DefaultNumberOfFreeTransporters;
         while (--counter >= 0) {
-            Transporter *const transporter = [[Transporter alloc] init];
+            Transporter *const transporter = [[[Transporter alloc] init] autorelease];
             transporter.name = [NSString stringWithFormat:@"Name %li", (long)counter];
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
             [freeTransporters_ addObject:transporter];
         }
 
-        finishedProductStorage_ = [[Warehouse alloc] init];
+        finishedProductStorage_ = [[[Warehouse alloc] init] autorelease];
         finishedProductStorage_.latitude = -1.f;
         finishedProductStorage_.longitude = -1.f;
         finishedProductStorage_.capacity = DefaultCapacityOfFinishedProductStorage;
 
-        rawMaterialStorage_ = [[Warehouse alloc] init];
+        rawMaterialStorage_ = [[[Warehouse alloc] init] autorelease];
         rawMaterialStorage_.latitude = -1.f;
         rawMaterialStorage_.longitude = 1.f;
         rawMaterialStorage_.capacity = DefaultCapacityOfRawMaterialStorage;
@@ -191,7 +192,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     /**
                      *  @remarks    One of the transporters has decided to retire.
                      */
-                    [[self.freeTransporters anyObject] release];
+                    [self.freeTransporters anyObject];
                 }
             }
 
