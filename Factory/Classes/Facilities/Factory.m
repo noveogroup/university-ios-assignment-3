@@ -108,6 +108,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
             [freeTransporters_ addObject:transporter];
+            [transporter release];
         }
 
         finishedProductStorage_ = [[Warehouse alloc] init];
@@ -132,9 +133,17 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
-    self.finishedProductStorage = nil;
-    self.rawMaterialStorage = nil;
-
+    [freeTransporters_ release];
+    freeTransporters_ = nil;
+    [restingTransporters_ release];
+    restingTransporters_ = nil;
+    [occupiedTransporters_ release];
+    occupiedTransporters_ = nil;
+    
+    [rawMaterialStorage_ release];
+    rawMaterialStorage_ = nil;
+    [finishedProductStorage_ release];
+    finishedProductStorage_ = nil;
     [assemblyLine_ release];
     assemblyLine_ = nil;
 
@@ -184,8 +193,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
     NSError *error = nil;
     for (NSUInteger index = 0; index < 8; ++index) {
-        NSAutoreleasePool *const pool = [[NSAutoreleasePool alloc] init];
-        {
+        @autoreleasepool{
             if ([self.freeTransporters count]) {
                 if (arc4random() % 7 == 0) {
                     /**
@@ -245,12 +253,11 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     while (![rawMaterialStorage_ isFull]) {
                         [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
                     }
-                    [error release];
                     error = nil;
                 }
             }
         }
-        [pool release];
+        
 
         NSLog(@"%li working hour.", (long)(index + 1));
     }
