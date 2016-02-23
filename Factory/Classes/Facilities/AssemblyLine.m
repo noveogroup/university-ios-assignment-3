@@ -8,6 +8,7 @@
 
 @implementation AssemblyLine
 
+
 @synthesize latitude = latitude_;
 @synthesize longitude = longitude_;
 
@@ -22,6 +23,7 @@
 {
     return longitude_;
 }
+
 
 #pragma mark - Processing
 

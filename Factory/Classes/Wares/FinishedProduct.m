@@ -6,44 +6,32 @@
 #import "FinishedProduct.h"
 
 @interface FinishedProduct ()
-{
-    NSSet *rawMaterials_;
-}
-
+@property (copy, nonatomic) NSSet *rawMaterials;
 @end
 
 @implementation FinishedProduct
 
 #pragma mark - Initialization
 
-- (id)init
-{
+- (id)init {
     return nil;
 }
 
-- (id)initWithRawMaterials:(NSSet *)rawMaterials
-{
-    if ((self = [super init])) {
-        rawMaterials_ = [rawMaterials copy];
-    }
 
+- (id)initWithRawMaterials:(NSSet *)rawMaterials {
+    self = [super init];
+    if (self) {
+        self.rawMaterials = rawMaterials;
+    }
+    
     return self;
 }
 
-#pragma mark - Deallocation
 
-- (void)dealloc
-{
-    [rawMaterials_ release];
-    rawMaterials_ = nil;
-
-    [super dealloc];
-}
 
 #pragma mark - WareProtocol implementation
 
-- (NSString *)uniqueIdentifier
-{
+- (NSString *)uniqueIdentifier {
     return [self description];
 }
 
