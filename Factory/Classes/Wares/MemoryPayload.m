@@ -34,12 +34,10 @@
 
 #pragma mark - Deallocation
 
-- (void)dealloc
-{
+- (void)dealloc {
     free(memoryLoad_);
     memoryLoad_ = NULL;
 
-    [super dealloc];
 }
 
 @end

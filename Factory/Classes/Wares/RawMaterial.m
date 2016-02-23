@@ -9,8 +9,7 @@
 
 #pragma mark - WareProtocol implementation
 
-- (NSString *)uniqueIdentifier
-{
+- (NSString *)uniqueIdentifier {
     return [self description];
 }
 

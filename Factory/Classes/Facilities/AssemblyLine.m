@@ -8,6 +8,7 @@
 
 @implementation AssemblyLine
 
+
 @synthesize latitude = latitude_;
 @synthesize longitude = longitude_;
 
@@ -23,13 +24,14 @@
     return longitude_;
 }
 
+
 #pragma mark - Processing
 
 - (FinishedProduct *)processRawMaterials:(NSSet *)rawMaterials
 {
     sleep(1);
 
-    return [[[FinishedProduct alloc] initWithRawMaterials:rawMaterials] autorelease];
+    return [[FinishedProduct alloc] initWithRawMaterials:rawMaterials];
 }
 
 @end

@@ -3,7 +3,6 @@
 //  Factory
 //
 
-#import "MemoryPayload.h"
 
 @protocol LocationProtocol;
 
