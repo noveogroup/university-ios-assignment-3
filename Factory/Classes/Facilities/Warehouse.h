@@ -19,18 +19,18 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares;
 @interface Warehouse : NSObject
     <LocationProtocol, WarehouseProtocol>
 
-@property (nonatomic, getter = capacity) NSUInteger capacity;
+@property (nonatomic, assign) NSUInteger capacity;
 
 /**
  *  Returns the geographic coordinate that specifies
  *  the north-south position of the location.
  */
-@property (nonatomic, getter = latitude) float latitude;
+@property (nonatomic, assign) float latitude;
 
 /**
  *  Returns the geographic coordinate that specifies
  *  the east-west position of the location.
  */
-@property (nonatomic, getter = longitude) float longitude;
+@property (nonatomic, assign) float longitude;
 
 @end
