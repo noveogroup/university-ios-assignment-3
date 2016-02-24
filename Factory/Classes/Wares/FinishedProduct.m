@@ -23,7 +23,8 @@
 
 - (id)initWithRawMaterials:(NSSet *)rawMaterials
 {
-    if ((self = [super init])) {
+    self = [super init];
+    if (self) {
         rawMaterials_ = [rawMaterials copy];
     }
 
