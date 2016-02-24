@@ -23,7 +23,8 @@
 
 - (id)initWithRawMaterials:(NSSet *)rawMaterials
 {
-    if ((self = [super init])) {
+    self = [super init];
+    if (self) {
         rawMaterials_ = [rawMaterials copy];
     }
 
@@ -34,10 +35,8 @@
 
 - (void)dealloc
 {
-    [rawMaterials_ release];
     rawMaterials_ = nil;
 
-    [super dealloc];
 }
 
 #pragma mark - WareProtocol implementation

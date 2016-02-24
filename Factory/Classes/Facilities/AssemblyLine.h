@@ -10,20 +10,19 @@
 /**
  *  The class represent a simple assembly line in action.
  */
-@interface AssemblyLine : NSObject
-    <LocationProtocol>
+@interface AssemblyLine : NSObject <LocationProtocol>
 
 /**
  *  Returns the geographic coordinate that specifies
  *  the north-south position of the location.
  */
-@property (nonatomic, getter = latitude) float latitude;
+@property (nonatomic, assign) float latitude;
 
 /**
  *  Returns the geographic coordinate that specifies
  *  the east-west position of the location.
  */
-@property (nonatomic, getter = longitude) float longitude;
+@property (nonatomic, assign) float longitude;
 
 /**
  *  Processes the given raw materials in order to produce a finished product.
