@@ -9,6 +9,7 @@
 /**
  *  Represents simple raw material.
  */
-@interface RawMaterial : MemoryPayload <WareProtocol>
+@interface RawMaterial : MemoryPayload
+    <WareProtocol>
 
 @end

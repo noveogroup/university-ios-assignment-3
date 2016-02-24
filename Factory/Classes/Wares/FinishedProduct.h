@@ -9,7 +9,8 @@
 /**
  *  The class represents a finished product.
  */
-@interface FinishedProduct : MemoryPayload <WareProtocol>
+@interface FinishedProduct : MemoryPayload
+    <WareProtocol>
 
 /**
  * Does no initialization; user -initWithRawMaterials: instead.
