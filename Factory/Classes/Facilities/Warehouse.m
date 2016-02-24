@@ -25,6 +25,14 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
 @synthesize wares = wares_;
 
+#pragma mark - Deallocation
+- (void)dealloc{
+    [wares_ release];
+    wares_ = nil;
+    
+    [super dealloc];
+}
+
 #pragma mark - Getters
 
 - (BOOL)isEmpty
@@ -77,8 +85,10 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
         for (id<WareProtocol> ware in mutableShipment) {
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
-
-        return [mutableShipment copy];
+        
+        NSMutableSet *shipment = [[mutableShipment copy] autorelease];
+        [mutableShipment release];
+        return shipment;
     }
 
     if (!!error) {
@@ -90,6 +100,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
         (*error) = [NSError errorWithDomain:WarehouseErrorDomain
                                        code:WarehouseErrorCodeNotEnoughWares
                                    userInfo:userInfo];
+        [userInfo release];
     }
 
     return nil;
