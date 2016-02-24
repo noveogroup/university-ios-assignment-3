@@ -84,13 +84,14 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (void)setFinishedProductStorage:(Warehouse *)finishedProductStorage
 {
     [finishedProductStorage retain];
-    [finishedProductStorage_ release];
+    //[finishedProductStorage_ release];
     finishedProductStorage_ = finishedProductStorage;
 }
 
 - (void)setRawMaterialStorage:(Warehouse *)rawMaterialStorage
 {
-    [rawMaterialStorage_ release];
+    //[rawMaterialStorage_ release];
+    [rawMaterialStorage retain];
     rawMaterialStorage_ = rawMaterialStorage;
 }
 
@@ -99,23 +100,23 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 - (id)init
 {
     if ((self = [super init])) {
-        freeTransporters_ = [[NSMutableSet set] retain];
+        freeTransporters_ = [NSMutableSet set];
 
         NSInteger counter = DefaultNumberOfFreeTransporters;
         while (--counter >= 0) {
-            Transporter *const transporter = [[Transporter alloc] init];
+            Transporter *const transporter = [[[Transporter alloc] init] autorelease];//autorelease added
             transporter.name = [NSString stringWithFormat:@"Name %li", (long)counter];
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
             [freeTransporters_ addObject:transporter];
         }
 
-        finishedProductStorage_ = [[Warehouse alloc] init];
+        finishedProductStorage_ = [[[Warehouse alloc] init] autorelease];//autorelease added
         finishedProductStorage_.latitude = -1.f;
         finishedProductStorage_.longitude = -1.f;
         finishedProductStorage_.capacity = DefaultCapacityOfFinishedProductStorage;
 
-        rawMaterialStorage_ = [[Warehouse alloc] init];
+        rawMaterialStorage_ = [[[Warehouse alloc] init] autorelease];//autorelease added
         rawMaterialStorage_.latitude = -1.f;
         rawMaterialStorage_.longitude = 1.f;
         rawMaterialStorage_.capacity = DefaultCapacityOfRawMaterialStorage;
@@ -191,7 +192,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     /**
                      *  @remarks    One of the transporters has decided to retire.
                      */
-                    [[self.freeTransporters anyObject] release];
+                    [[self.freeTransporters anyObject] autorelease];
                 }
             }
 
@@ -228,6 +229,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                          *  @remarks    The warehouse is full, it's high time
                          *              to sell its wares.
                          */
+                        //NSLog(@"finishedProductStorage is full");
                         [self.finishedProductStorage shipWaresOfCount:[self.finishedProductStorage capacity]
                                                                 error:nil];
                     }
@@ -243,9 +245,10 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                      *              let's buy some.
                      */
                     while (![rawMaterialStorage_ isFull]) {
+                        //NSLog(@"added new materials");
                         [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
                     }
-                    [error release];
+                    //[error release];
                     error = nil;
                 }
             }
