@@ -193,7 +193,9 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     /**
                      *  @remarks    One of the transporters has decided to retire.
                      */
-                    [[self.freeTransporters anyObject] release];
+                    Transporter *transporter = [self.freeTransporters anyObject];
+                    [self.freeTransporters removeObject:transporter];
+                    //[[self.freeTransporters anyObject] release];####################
                 }
             }
 
@@ -247,7 +249,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     while (![rawMaterialStorage_ isFull]) {
                         [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
                     }
-                    //[error release];
+                    //[error release]; ######################
                     error = nil;
                 }
             }
