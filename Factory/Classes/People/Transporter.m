@@ -7,6 +7,5 @@
 
 @implementation Transporter
 
-@synthesize cargo = cargo_;
 
 @end

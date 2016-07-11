@@ -19,12 +19,6 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
 @implementation Warehouse
 
-@synthesize capacity = capacity_;
-@synthesize latitude = latitude_;
-@synthesize longitude = longitude_;
-
-@synthesize wares = wares_;
-
 #pragma mark - Getters
 
 - (BOOL)isEmpty
@@ -39,23 +33,23 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
 - (NSMutableDictionary *)wares
 {
-    if (!wares_) {
-        wares_ = [[NSMutableDictionary alloc] init];
+    if (!_wares) {
+        _wares = [[NSMutableDictionary alloc] init];
     }
 
-    return wares_;
+    return _wares;
 }
 
 #pragma mark - LocationProtocol implementation
 
 - (float)latitude
 {
-    return latitude_;
+    return _latitude;
 }
 
 - (float)longitude
 {
-    return longitude_;
+    return _longitude;
 }
 
 #pragma mark - WarehouseProtocol implementation
