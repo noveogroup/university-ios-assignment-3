@@ -134,8 +134,20 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
-    self.finishedProductStorage = nil;
-    self.rawMaterialStorage = nil;
+    [freeTransporters_ release];
+    freeTransporters_ = nil;
+    
+    [occupiedTransporters_ release];
+    occupiedTransporters_ = nil;
+    
+    [restingTransporters_ release];
+    restingTransporters_ = nil;
+    
+    [finishedProductStorage_ release];
+    finishedProductStorage_ = nil;
+    
+    [rawMaterialStorage_ release];
+    rawMaterialStorage_ = nil;
 
     [assemblyLine_ release];
     assemblyLine_ = nil;
@@ -223,7 +235,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     [self.freeTransporters removeObject:transporter];
 
                     [transporter moveToLocation:self.assemblyLine];
-
                     transporter.cargo = [self.assemblyLine processRawMaterials:transporter.cargo];
                     [transporter moveToLocation:self.finishedProductStorage];
 
