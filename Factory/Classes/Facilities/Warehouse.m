@@ -78,7 +78,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 - (NSSet *)shipWaresOfCount:(NSUInteger)count
                       error:(NSError **)error NS_RETURNS_RETAINED {
     if (count <= [self.wares count]) {
-        NSMutableSet *const mutableShipment = [[NSMutableSet alloc] init];
+        NSMutableSet *const mutableShipment = [[[NSMutableSet alloc] init] autorelease];
         for (NSUInteger index = 0; index < count; ++index) {
             id key = [self.wares allKeys][index];
             [mutableShipment addObject:self.wares[key]];
@@ -87,10 +87,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
 
-        NSSet *set = [mutableShipment copy];
-        [mutableShipment release];
-
-        return set;
+        return [[mutableShipment copy] autorelease];
     }
 
     if (!!error) {
