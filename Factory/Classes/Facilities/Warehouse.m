@@ -13,17 +13,11 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
 @interface Warehouse ()
 
-@property (nonatomic, retain) NSMutableDictionary *wares;
+@property (nonatomic) NSMutableDictionary *wares;
 
 @end
 
 @implementation Warehouse
-
-@synthesize capacity = capacity_;
-@synthesize latitude = latitude_;
-@synthesize longitude = longitude_;
-
-@synthesize wares = wares_;
 
 #pragma mark - Getters
 
@@ -39,23 +33,23 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 
 - (NSMutableDictionary *)wares
 {
-    if (!wares_) {
-        wares_ = [[NSMutableDictionary alloc] init];
+    if (!_wares) {
+        _wares = [[NSMutableDictionary alloc] init];
     }
 
-    return wares_;
+    return _wares;
 }
 
 #pragma mark - LocationProtocol implementation
 
 - (float)latitude
 {
-    return latitude_;
+    return _latitude;
 }
 
 - (float)longitude
 {
-    return longitude_;
+    return _longitude;
 }
 
 #pragma mark - WarehouseProtocol implementation
@@ -70,6 +64,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 {
     if (count <= [self.wares count]) {
         NSMutableSet *const mutableShipment = [[NSMutableSet alloc] init];
+        
         for (NSUInteger index = 0; index < count; ++index) {
             id key = [[self.wares allKeys] objectAtIndex:index];
             [mutableShipment addObject:[self.wares objectForKey:key]];
