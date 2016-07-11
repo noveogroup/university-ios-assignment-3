@@ -38,8 +38,6 @@
 {
     free(memoryLoad_);
     memoryLoad_ = NULL;
-
-    [super dealloc];
 }
 
 @end
