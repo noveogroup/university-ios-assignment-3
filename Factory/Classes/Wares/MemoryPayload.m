@@ -7,7 +7,7 @@
 
 @interface MemoryPayload ()
 {
-    UInt8 *memoryLoad_;
+    UInt8 *_memoryLoad;
 }
 
 @end
@@ -21,10 +21,10 @@
     self = [super init];
     if (self) {
         const NSUInteger memoryLoadSize = 10000000;
-        memoryLoad_ = (UInt8 *)malloc(sizeof(UInt8) * memoryLoadSize);
-        if (memoryLoad_ != NULL) {
+        _memoryLoad = (UInt8 *)malloc(sizeof(UInt8) * memoryLoadSize);
+        if (_memoryLoad != NULL) {
             for (NSUInteger i = 0; i < memoryLoadSize; i++) {
-                memoryLoad_[i] = UINT8_MAX;
+                _memoryLoad[i] = UINT8_MAX;
             }
         }
     }
@@ -37,8 +37,8 @@
 
 - (void)dealloc
 {
-    free(memoryLoad_);
-    memoryLoad_ = NULL;
+    free(_memoryLoad);
+    _memoryLoad = NULL;
 }
 
 @end

@@ -7,7 +7,7 @@
 
 @interface FinishedProduct ()
 {
-    NSSet *rawMaterials_;
+    NSSet *_rawMaterials;
 }
 
 @end
@@ -24,7 +24,7 @@
 - (id)initWithRawMaterials:(NSSet *)rawMaterials
 {
     if ((self = [super init])) {
-        rawMaterials_ = [rawMaterials copy];
+        _rawMaterials = [rawMaterials copy];
     }
 
     return self;
