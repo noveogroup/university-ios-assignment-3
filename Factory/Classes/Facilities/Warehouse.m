@@ -95,6 +95,4 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
     return nil;
 }
 
-#pragma mark - Deallocation
-
 @end
