@@ -17,13 +17,13 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 @interface Factory ()
 
-@property (nonatomic, retain) NSMutableSet *freeTransporters;
-@property (nonatomic, retain) NSMutableSet *occupiedTransporters;
-@property (nonatomic, retain) NSMutableSet *restingTransporters;
+@property (nonatomic) NSMutableSet *freeTransporters;
+@property (nonatomic) NSMutableSet *occupiedTransporters;
+@property (nonatomic) NSMutableSet *restingTransporters;
 
-@property (nonatomic, retain) AssemblyLine *assemblyLine;
-@property (nonatomic, retain) Warehouse *finishedProductStorage;
-@property (nonatomic, retain) Warehouse *rawMaterialStorage;
+@property (nonatomic) AssemblyLine *assemblyLine;
+@property (nonatomic) Warehouse *finishedProductStorage;
+@property (nonatomic) Warehouse *rawMaterialStorage;
 
 - (void)simulateWorkingWeek;
 
@@ -70,23 +70,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
     }
 
     return assemblyLine_;
-}
-
-#pragma mark - Setters
-
-- (void)setFreeTransporters:(NSMutableSet *)freeTransporters
-{
-    freeTransporters_ = freeTransporters;
-}
-
-- (void)setFinishedProductStorage:(Warehouse *)finishedProductStorage
-{
-    finishedProductStorage_ = finishedProductStorage;
-}
-
-- (void)setRawMaterialStorage:(Warehouse *)rawMaterialStorage
-{
-    rawMaterialStorage_ = rawMaterialStorage;
 }
 
 #pragma mark - Initialization
