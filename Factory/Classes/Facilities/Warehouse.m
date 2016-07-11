@@ -69,7 +69,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
                       error:(NSError **)error
 {
     if (count <= [self.wares count]) {
-        NSMutableSet *const mutableShipment = [[[NSMutableSet alloc] init] autorelease];
+        NSMutableSet *const mutableShipment = [[NSMutableSet alloc] init];
         for (NSUInteger index = 0; index < count; ++index) {
             id key = [[self.wares allKeys] objectAtIndex:index];
             [mutableShipment addObject:[self.wares objectForKey:key]];
@@ -77,7 +77,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
         for (id<WareProtocol> ware in mutableShipment) {
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
-        return [[mutableShipment copy] autorelease];
+        return [mutableShipment copy];
     }
 
     if (!!error) {
@@ -89,17 +89,10 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
         (*error) = [NSError errorWithDomain:WarehouseErrorDomain
                                        code:WarehouseErrorCodeNotEnoughWares
                                    userInfo:userInfo];
-        [userInfo release];
     }
 
     return nil;
 }
 
-- (void) dealloc
-{
-    [wares_ release];
-    wares_ = nil;
-    [super dealloc];
-}
 
 @end

@@ -18,13 +18,4 @@
     location_ = location;
 }
 
-- (void)dealloc
-{
-    [name_ release];
-    [surname_ release];
-    name_ = nil;
-    surname_ = nil;
-    [super dealloc];
-}
-
 @end
