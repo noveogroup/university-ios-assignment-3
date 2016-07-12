@@ -204,9 +204,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                      *  @remarks    One of the transporters has decided to retire.
                      */                    
                     Transporter *const transporter = [self.freeTransporters anyObject];
-                    [transporter moveToLocation:self];
-                    
-                    [self.restingTransporters addObject:transporter];
                     [self.freeTransporters removeObject:transporter];
                 }
             }
