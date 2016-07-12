@@ -46,6 +46,16 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
     return wares_;
 }
 
+#pragma mark - Deallocation
+
+- (void)dealloc
+{
+    [wares_ release];
+    wares_ = nil;
+    
+    [super dealloc];
+}
+
 #pragma mark - LocationProtocol implementation
 
 - (float)latitude
@@ -66,27 +76,24 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares = -1;
 }
 
 - (NSSet *)shipWaresOfCount:(NSUInteger)count
-                      error:(NSError **)error
-{
+                      error:(NSError **)error NS_RETURNS_RETAINED {
     if (count <= [self.wares count]) {
-        NSMutableSet *const mutableShipment = [[NSMutableSet alloc] init];
+        NSMutableSet *const mutableShipment = [[[NSMutableSet alloc] init] autorelease];
         for (NSUInteger index = 0; index < count; ++index) {
-            id key = [[self.wares allKeys] objectAtIndex:index];
-            [mutableShipment addObject:[self.wares objectForKey:key]];
+            id key = [self.wares allKeys][index];
+            [mutableShipment addObject:self.wares[key]];
         }
         for (id<WareProtocol> ware in mutableShipment) {
             [self.wares removeObjectForKey:[ware uniqueIdentifier]];
         }
 
-        return [mutableShipment copy];
+        return [[mutableShipment copy] autorelease];
     }
 
     if (!!error) {
         NSDictionary *const userInfo =
-            [[NSDictionary alloc] initWithObjectsAndKeys:
-                @"There is not enough wares in the warehouse",
-                kWarehouseErrorDescription,
-             nil];
+                @{kWarehouseErrorDescription :
+                        @"There is not enough wares in the warehouse"};
         (*error) = [NSError errorWithDomain:WarehouseErrorDomain
                                        code:WarehouseErrorCodeNotEnoughWares
                                    userInfo:userInfo];
