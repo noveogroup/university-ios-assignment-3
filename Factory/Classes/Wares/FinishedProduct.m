@@ -7,7 +7,7 @@
 
 @interface FinishedProduct ()
 {
-    NSSet *rawMaterials_;
+    NSSet *_rawMaterials;
 }
 
 @end
@@ -24,20 +24,10 @@
 - (id)initWithRawMaterials:(NSSet *)rawMaterials
 {
     if ((self = [super init])) {
-        rawMaterials_ = [rawMaterials copy];
+        _rawMaterials = [rawMaterials copy];
     }
 
     return self;
-}
-
-#pragma mark - Deallocation
-
-- (void)dealloc
-{
-    [rawMaterials_ release];
-    rawMaterials_ = nil;
-
-    [super dealloc];
 }
 
 #pragma mark - WareProtocol implementation

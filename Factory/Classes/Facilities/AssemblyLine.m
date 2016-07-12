@@ -8,26 +8,23 @@
 
 @implementation AssemblyLine
 
-@synthesize latitude = latitude_;
-@synthesize longitude = longitude_;
-
 #pragma mark - LocationProtocol implementation
 
 - (float)latitude
 {
-    return latitude_;
+    return _latitude;
 }
 
 - (float)longitude
 {
-    return longitude_;
+    return _longitude;
 }
 
 #pragma mark - Processing
 
 - (FinishedProduct *)processRawMaterials:(NSSet *)rawMaterials
 {
-    sleep(1);
+    //sleep(1);
 
     return [[FinishedProduct alloc] initWithRawMaterials:rawMaterials];
 }

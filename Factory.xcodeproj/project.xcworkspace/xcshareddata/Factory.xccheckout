@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>CD9C0191-6034-47E4-B43E-5EEBA8C9749F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Factory</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4CE95D908D81A511AB2CF36497B35367445D0ADF</key>
+		<string>https://github.com/LibrechtIsTheBest/university-ios-assignment-3.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Factory.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4CE95D908D81A511AB2CF36497B35367445D0ADF</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/LibrechtIsTheBest/university-ios-assignment-3.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4CE95D908D81A511AB2CF36497B35367445D0ADF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4CE95D908D81A511AB2CF36497B35367445D0ADF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>university-ios-assignment-3</string>
+		</dict>
+	</array>
+</dict>
+</plist>
