@@ -90,6 +90,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)setRawMaterialStorage:(Warehouse *)rawMaterialStorage
 {
+    [rawMaterialStorage retain];
     [rawMaterialStorage_ release];
     rawMaterialStorage_ = rawMaterialStorage;
 }
@@ -100,10 +101,10 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 {
     if ((self = [super init])) {
         freeTransporters_ = [[NSMutableSet set] retain];
-
+    
         NSInteger counter = DefaultNumberOfFreeTransporters;
         while (--counter >= 0) {
-            Transporter *const transporter = [[Transporter alloc] init];
+            Transporter *const transporter = [[[Transporter alloc] init] autorelease];
             transporter.name = [NSString stringWithFormat:@"Name %li", (long)counter];
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
@@ -132,11 +133,26 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
-    self.finishedProductStorage = nil;
-    self.rawMaterialStorage = nil;
+//    self.finishedProductStorage = nil;
+//    self.rawMaterialStorage = nil;
+    
+    [occupiedTransporters_ release];
+    occupiedTransporters_ = nil;
+    
+    [restingTransporters_ release];
+    restingTransporters_ = nil;
 
     [assemblyLine_ release];
     assemblyLine_ = nil;
+    
+    [freeTransporters_ release];
+    freeTransporters_ = nil;
+    
+    [finishedProductStorage_ release];
+    finishedProductStorage_ = nil;
+    
+    [rawMaterialStorage_ release];
+    rawMaterialStorage_ = nil;
 
     [super dealloc];
 }
@@ -191,7 +207,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     /**
                      *  @remarks    One of the transporters has decided to retire.
                      */
-                    [[self.freeTransporters anyObject] release];
+                    [self.freeTransporters removeObject:[self.freeTransporters anyObject]];
                 }
             }
 
@@ -245,8 +261,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     while (![rawMaterialStorage_ isFull]) {
                         [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
                     }
-                    [error release];
-                    error = nil;
                 }
             }
         }
