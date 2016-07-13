@@ -16,8 +16,7 @@ static const NSInteger WarehouseErrorCodeNotEnoughWares;
 /**
  *  The class represents a simple warehouse.
  */
-@interface Warehouse : NSObject
-    <LocationProtocol, WarehouseProtocol>
+@interface Warehouse : NSObject <LocationProtocol, WarehouseProtocol>
 
 @property (nonatomic, getter = capacity) NSUInteger capacity;
 
