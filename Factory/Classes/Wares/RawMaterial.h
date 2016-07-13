@@ -6,10 +6,6 @@
 #import "MemoryPayload.h"
 #import "WareProtocol.h"
 
-/**
- *  Represents simple raw material.
- */
-@interface RawMaterial : MemoryPayload
-    <WareProtocol>
+@interface RawMaterial : MemoryPayload <WareProtocol>
 
 @end
