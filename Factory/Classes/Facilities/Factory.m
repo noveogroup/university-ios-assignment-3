@@ -103,7 +103,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
         NSInteger counter = DefaultNumberOfFreeTransporters;
         while (--counter >= 0) {
-            Transporter *const transporter = [[Transporter alloc] init];
+            Transporter *const transporter = [[[Transporter alloc] init] autorelease];
             transporter.name = [NSString stringWithFormat:@"Name %li", (long)counter];
             transporter.surname = [NSString stringWithFormat:@"Surname %li", (long)counter];
             [transporter moveToLocation:self];
@@ -132,9 +132,16 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
 
 - (void)dealloc
 {
-    self.finishedProductStorage = nil;
-    self.rawMaterialStorage = nil;
-
+    [finishedProductStorage_ release];
+    finishedProductStorage_ = nil;
+    [rawMaterialStorage_ release];
+    rawMaterialStorage_ = nil;
+    [restingTransporters_ release];
+    restingTransporters_ = nil;
+    [freeTransporters_ release];
+    freeTransporters_ = nil;
+    [occupiedTransporters_ release];
+    occupiedTransporters_ = nil;
     [assemblyLine_ release];
     assemblyLine_ = nil;
 
@@ -191,7 +198,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     /**
                      *  @remarks    One of the transporters has decided to retire.
                      */
-                    [[self.freeTransporters anyObject] release];
+                    [self.freeTransporters removeObject:[self.freeTransporters anyObject]];
                 }
             }
 
@@ -210,7 +217,7 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
             }
 
             Transporter *const transporter = [self.freeTransporters anyObject];
-            if (!!transporter) {
+            if (!!transporter) { // TODO what is "!!" ? =)
                 const NSUInteger shipmentVolume = 1 + (arc4random() % DefaultLimitOnShipmentVolume);
                 transporter.cargo = [self.rawMaterialStorage shipWaresOfCount:shipmentVolume
                                                                         error:&error];
@@ -245,7 +252,6 @@ static const NSUInteger DefaultLimitOnShipmentVolume = 5;
                     while (![rawMaterialStorage_ isFull]) {
                         [rawMaterialStorage_ putWare:[[[RawMaterial alloc] init] autorelease]];
                     }
-                    [error release];
                     error = nil;
                 }
             }
