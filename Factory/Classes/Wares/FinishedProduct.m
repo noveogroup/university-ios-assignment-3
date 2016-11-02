@@ -30,14 +30,6 @@
     return self;
 }
 
-#pragma mark - Deallocation
-
-- (void)dealloc
-{
-    rawMaterials_ = nil;
-
-}
-
 #pragma mark - WareProtocol implementation
 
 - (NSString *)uniqueIdentifier
